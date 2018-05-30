@@ -1,0 +1,19 @@
+<VSTemplate Version="2.0.0" Type="Item">
+  <TemplateData>
+    <Name>XCFC Program A4 Landscape</Name>
+    <Type>CFC_PROGRAM</Type>
+    <Description>CFC文件 A4纸张 竖向显示</Description>
+    <Icon>CFC.ico</Icon>
+    <SortOrder>110</SortOrder>
+    <DefaultName>CFCProgram.XCFC</DefaultName>
+    <Category>
+      <OwnerType>DPS3000B</OwnerType>
+      <OwnerType>FOLDER</OwnerType>
+      <OwnerType>EPU10A</OwnerType>
+      <OwnerType>ESP10B</OwnerType>
+    </Category>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="CFCFile.XCFC" TargetFileName="$safeprojectname$.XCFC" ReplaceParameters="true"></Project>
+  </TemplateContent>
+</VSTemplate>

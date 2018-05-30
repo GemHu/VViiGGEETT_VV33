@@ -1,0 +1,24 @@
+﻿<Window x:Class="Dothan.Controls.MessageViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:Dothan.Controls"
+          Width="250" Title="{Binding MessageTitle}" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" Icon="/DzControls;component/Images/IconNotice.png" KeyDown="Window_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="45"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+
+        </Grid.ColumnDefinitions>
+        <Image Width="50" Height="50" Source="/DzControls;component/Images/IconNotice.png"></Image>
+        <TextBlock TextWrapping="Wrap"  Grid.Column="1" VerticalAlignment="Center" Margin="10,0,10,0" Text="{Binding MessageText}"></TextBlock>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
+            <ctl:ImageButton  Height="24" Width="80" Margin="2,0,2,0" Content="{Binding Btn1Content}" Visibility="{Binding Btn1Visiblity}" Click="Button1_Click" MyImageSource="/DzStyles;component/Images/OK.ico" MyText="{Binding Btn1Content}"></ctl:ImageButton>
+            <ctl:ImageButton  Height="24" Width="80" Margin="2,0,2,0" Content="{Binding Btn2Content}" Visibility="{Binding Btn2Visiblity}" Click="Button2_Click" MyImageSource="/DzStyles;component/Images/Cancel.ico" MyText="{Binding Btn2Content}"></ctl:ImageButton>
+        </StackPanel>
+    </Grid>
+</Window>

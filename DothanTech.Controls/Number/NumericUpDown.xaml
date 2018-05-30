@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Dothan.Controls.NumericUpDown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="23" d:DesignWidth="70">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="16"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBox Text="0" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" Margin="0,0,1,0" Name="txtNumeric" VerticalAlignment="Stretch" VerticalContentAlignment="Center" TextAlignment="Right"
+                 TextChanged="txtNumeric_TextChanged" PreviewKeyDown="txtNumeric_PreviewKeyDown"/>
+        <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Name="btnUp" VerticalAlignment="Stretch" IsTabStop="False" Focusable="False" Click="btnUp_Click">
+            <Image Source="/DzControls;component/Images/ArrowUp.png" Margin="0,0,0,1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill" />
+        </Button>
+        <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Name="btnDown" VerticalAlignment="Stretch" IsTabStop="False" Focusable="False" Click="btnDown_Click">
+            <Image Source="/DzControls;component/Images/ArrowDown.png" Margin="0,1,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill" />
+        </Button>
+    </Grid>
+</UserControl>

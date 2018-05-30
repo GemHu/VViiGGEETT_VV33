@@ -1,0 +1,27 @@
+<VSTemplate Version="2.0.0" Type="Item">
+  <TemplateData>
+    <Name>EPU10A</Name>
+    <Type>MAKFILE</Type>
+    <Description>CPU module of current station.</Description>
+    <Icon>mak.ico</Icon>
+    <SortOrder>100</SortOrder>
+    <DefaultName>CP</DefaultName>
+    <Category>
+      <OwnerType>DPS3000B</OwnerType>
+    </Category>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="CP1.MAK" TargetFileName="$ENV$\$safeprojectname$\$safeprojectname$.MAK" ReplaceParameters="true">
+      <ProjectItem
+        TargetFileName="$ENV$\$safeprojectname$\$safeprojectname$.XML"
+        ReplaceParameters="true">
+        CP1.XML
+      </ProjectItem>
+      <ProjectItem
+        TargetFileName="$safeprojectname$\$safeprojectname$CFC.XCFC"
+        ReplaceParameters="true">
+        CP1CFC.XCFC
+      </ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

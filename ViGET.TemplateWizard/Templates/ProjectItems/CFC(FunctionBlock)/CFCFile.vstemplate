@@ -1,0 +1,19 @@
+<VSTemplate Version="2.0.0" Type="Item">
+  <TemplateData>
+    <Name>XCFC Function Block</Name>
+    <Type>CFC_FUNCTIONBLOCK</Type>
+    <Description>Function Block in 'Continuous Function Chart'</Description>
+    <Icon>CFCFB.ico</Icon>
+    <SortOrder>120</SortOrder>
+    <DefaultName>CFCFuncBlock.XCFC</DefaultName>
+    <Category>
+      <OwnerType>DPS3000B</OwnerType>
+      <OwnerType>FOLDER</OwnerType>
+      <OwnerType>XJ_CP3000</OwnerType>
+      <OwnerType>XJ_MS3000</OwnerType>
+    </Category>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="CFCFile.XCFC" TargetFileName="$safeprojectname$.XCFC" ReplaceParameters="true"></Project>
+  </TemplateContent>
+</VSTemplate>

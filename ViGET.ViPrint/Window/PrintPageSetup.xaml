@@ -1,0 +1,227 @@
+﻿<Window x:Class="Dothan.Print.PrintPageSetup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:Dothan.Print"
+        mc:Ignorable="d" Title="Page Setup"
+        Width="420" Height="515" MinWidth="420" MinHeight="515"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Window.Resources>
+        <local:ShowDatas x:Key="DataList">
+        </local:ShowDatas>
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="LightBlue" />
+                    <Setter Property="Cursor" Value="Hand" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <StackPanel Height="473" Width="400" Orientation="Vertical">
+        <TabControl Height="428" SelectedIndex="1" >
+            <TabItem Header="Paper format" >
+                <StackPanel >
+                    <!--Layouts-->
+                    <GroupBox Header="Layouts"  Margin="10" 
+                              >
+                        <StackPanel >
+                            <TextBox Name="txtCurStyle" Margin="10,10,10,3" 
+                                     Text="{Binding Path=SelectedItem, ElementName=lbStyles}" />
+                            <ListBox Name="lbStyles" 
+                                     Margin="10,0,10,0" Height="130"
+                                     SelectionChanged="lbStyles_SelectionChanged"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Orientation" Margin="10,0,10,0" Padding="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/ViPrint;component/Images/portrait.png" />
+                            <RadioButton Name="rbPortrait"
+                                Content="Portrait" VerticalAlignment="Center"
+                                Margin="10,0,0,0"/>
+                            <Image Margin="60,0,0,0" Source="pack://application:,,,/ViPrint;component/Images/landscape.png" />
+                            <RadioButton Name="rbLandscape"
+                                Content="Landscape" VerticalAlignment="Center"
+                                Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <!--Print Option GroupBox-->
+                    <GroupBox Name="grpBaseSet" 
+                        Margin="10" Padding="10"
+                        Header="Print Option" >
+                        <StackPanel Orientation="Vertical" >
+                            <!--<CheckBox Name="chkPrintComments" 
+                                Content="Print comments pages" Margin="0,0,0,10"/>-->
+                            <CheckBox Name="chkPrintColor" 
+                                Content="Print CFC with color" Margin="0"/>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Labeling fields" >
+                <StackPanel >
+                    <!-- HeaderGropBox-->
+                    <GroupBox Name="HeaderGroup" Header="Header" 
+                        Margin="10" Padding="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="45"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Left:" Grid.Row="0" 
+                        VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin="5"/>
+                            <Label Content="Center:" Grid.Row="1"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="5"/>
+                            <Label Content="Right:" Grid.Row="2"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="5"/>
+                            <TextBox Name="txtHeaderLeft"
+                                Grid.Row="0" Grid.Column="1"
+                                Margin="5,4,5,3" TextAlignment="Left"
+                                VerticalScrollBarVisibility="Visible"
+                                AcceptsReturn="True" TextWrapping="Wrap"/>
+                            <TextBox Name="txtHeaderCenter"
+                                Grid.Row="1" Grid.Column="1" 
+                                Margin="5,4,5,3" TextAlignment="Center"
+                                VerticalScrollBarVisibility="Visible"
+                                AcceptsReturn="True" TextWrapping="Wrap"/>
+                            <TextBox Name="txtHeaderRight"
+                                Grid.Row="2" Grid.Column="1" 
+                                Margin="5,4,5,3" TextAlignment="Right"
+                                VerticalScrollBarVisibility="Visible"
+                                AcceptsReturn="True" TextWrapping="Wrap"/>
+                            <Button Name="btnHeaderLeft"
+                                Grid.Row="0" Grid.Column="2" 
+                                Margin="5" Click="btnHeaderLeft_Click">
+                                ...
+                            </Button>
+                            <Button Name="btnHeaderCenter"
+                                Grid.Row="1" Grid.Column="2"
+                                Margin="5" Click="btnHeaderCenter_Click">
+                                ...
+                            </Button>
+                            <Button Name="btnHeaderRight"
+                                Grid.Row="2" Grid.Column="2" 
+                                Margin="5" Click="btnHeaderRight_Click">
+                                ...
+                            </Button>
+                            <!--Popup弹出框放到什么地方都可以，只有在需要时才显示，不影响其他控件的显示-->
+
+                            <Popup x:Name="Pop" PopupAnimation="Slide" Width="150" 
+                                    Placement="Bottom" 
+                                    AllowsTransparency="True" StaysOpen="False">
+                                <ListBox Name="PopList" 
+                                DataContext="{StaticResource DataList}"  
+                                ItemsSource="{Binding}"
+                                DisplayMemberPath="Key" 
+                                SelectionChanged="PopList_SelectionChanged" />
+                            </Popup>
+                        </Grid>
+                    </GroupBox>
+                    <!--FooterGroupBox-->
+                    <GroupBox Name="FooterGroup" Header="Footer" 
+                        Margin="10,0,10,0" Padding="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="45"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Left:" Grid.Row="0" 
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="5"/>
+                            <Label Content="Center:" Grid.Row="1"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="5"/>
+                            <Label Content="Right:" Grid.Row="2"
+                                VerticalAlignment="Center" HorizontalAlignment="Left"
+                                Margin="5"/>
+                            <TextBox Name="txtFooterLeft"
+                                Grid.Row="0" Grid.Column="1"
+                                Margin="5,4,5,3" TextAlignment="Left"
+                                VerticalScrollBarVisibility="Visible"
+                                AcceptsReturn="True" TextWrapping="Wrap"/>
+                            <TextBox Name="txtFooterCenter"
+                                Grid.Row="1" Grid.Column="1" 
+                                Margin="5,4,5,3" TextAlignment="Center"
+                                VerticalScrollBarVisibility="Visible"
+                                AcceptsReturn="True" TextWrapping="Wrap"/>
+                            <TextBox Name="txtFooterRight"
+                                Grid.Row="2" Grid.Column="1" 
+                                Margin="5,4,5,3" TextAlignment="Right"
+                                VerticalScrollBarVisibility="Visible"
+                                AcceptsReturn="True" TextWrapping="Wrap"/>
+                            <Button Name="btnFooterLeft"
+                                Grid.Row="0" Grid.Column="2" 
+                                Margin="5" Click="btnFooterLeft_Click">
+                                ...
+                            </Button>
+                            <Button Name="btnFooterCenter"
+                                Grid.Row="1" Grid.Column="2"
+                                Margin="5" Click="btnFooterCenter_Click" >
+                                ...
+                            </Button>
+                            <Button Name="btnFooterRight"
+                                Grid.Row="2" Grid.Column="2" 
+                                Margin="5" Click="btnFooterRight_Click" >
+
+                                ...
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+                    <Button Name="btnSetDefault" 
+                        HorizontalAlignment="Right" Margin="0,10,25,0"
+                        Width="80" Height="25"  Content="Default" 
+                        Click="btnSetDefault_Click" />
+
+                </StackPanel>
+
+            </TabItem>
+        </TabControl>
+        <!--<StackPanel Orientation="Horizontal" Margin="0,10,0,10" Height="25">
+            <Label Content="Valid for:" Width="70"/>
+            <ComboBox Name="combRegion" Width="200" />
+        </StackPanel>
+        <Border Margin="0,0,0,10" Height="1" Background="LightGray" />-->
+        <!-- OK Cancel -->
+        <Grid Margin="0,10,0,0" Height="30" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" 
+                Click="btnOK_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Width="16" Height="16" Margin="-15,0,10,0" 
+                           Source="pack://application:,,,/ViPrint;component/Images/btnOK.png"/>
+                    <Label Content="OK" Height="25"/>
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="3" 
+                Click="btnCancel_Click">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Width="16" Height="16" Margin="-5,0,0,0"
+                           Source="pack://application:,,,/ViPrint;component/Images/btnCancel.png" />
+                    <Label Content="Cancel" Height="25"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </StackPanel>
+</Window>

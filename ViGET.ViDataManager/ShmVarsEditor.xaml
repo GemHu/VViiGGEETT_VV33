@@ -1,0 +1,192 @@
+﻿<UserControl x:Class="Dothan.Manager.ShmVarsEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Dothan.Manager"
+             xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" 
+             PreviewKeyDown="UserControl_PreviewKeyDown" LostKeyboardFocus="UserControl_LostKeyboardFocus">
+
+    <UserControl.Resources>
+        <local:BoolToStringConverter x:Key="boolToStringConverter"/>
+
+        <Style x:Key="dgVCenterStyle" TargetType="{x:Type dg:DataGridCell}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type dg:DataGridCell}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="dg:DataGrid">
+            <Style.Resources>
+                <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#FFF5BF" Offset="0"/>
+                    <!--Gold with 75% White-->
+                    <GradientStop Color="#FFF5BF" Offset="0.5"/>
+                    <!--Gold with 75% White-->
+                    <GradientStop Color="#FFEB7F" Offset="0.5"/>
+                    <!--Gold with 50% White-->
+                    <GradientStop Color="#FFEB7F" Offset="1"/>
+                    <!--Gold with 50% White-->
+                </LinearGradientBrush>
+
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+                <!--LinearGradientBrush x:Key="{x:Static SystemColors.ControlBrushKey}" StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#EDEDED" Offset="0"/-->
+                <!--Gainsboro with 50% White-->
+                <!--GradientStop Color="#EDEDED" Offset="0.5"/-->
+                <!--Gainsboro with 50% White-->
+                <!--GradientStop Color="Gainsboro" Offset="0.5"/>
+                    <GradientStop Color="Gainsboro" Offset="1"/>
+                </LinearGradientBrush-->
+
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black"/>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
+
+    <DockPanel Margin="5,5,5,0" Name="editorDockPanel">
+        <DockPanel Margin="0,0,0,5" DockPanel.Dock="Top" LastChildFill="False">
+            <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Text="Variables Num: "/>
+            <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ShmVarsEditor}, Path=ListOfShmVariables.Count}"/>
+            <Button DockPanel.Dock="Right" MinWidth="20" Margin="5,0,0,0" Name="DelShmVar" Height="20" Click="DelShmVar_Click">
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Image Source="Images/Delete.png" Width="16"/>
+                    </BulletDecorator.Bullet>
+                </BulletDecorator>
+            </Button>
+            <Button DockPanel.Dock="Right" MinWidth="20" Name="AddShmVar" Height="20" Click="AddShmVar_Click">
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Image Source="Images/Add.png" Width="16"/>
+                    </BulletDecorator.Bullet>
+                </BulletDecorator>
+            </Button>
+        </DockPanel>
+
+        <StackPanel Name="panelSearch" DockPanel.Dock="Bottom" Margin="0,5,0,0" Orientation="Horizontal">
+            <TextBlock Text="Find:" Margin="0,0,5,0" VerticalAlignment="Center"/>
+            <TextBox Width="100" Name="searchTextBox" KeyUp="SearchTextBox_KeyUp" VerticalAlignment="Center"/>
+            <Button Margin="5,0,0,0" MinWidth="20" Click="ButtonFindNext_Click" VerticalAlignment="Center">
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Image Source="Images/FindNext.png" Width="16"/>
+                    </BulletDecorator.Bullet>
+                </BulletDecorator>
+            </Button>
+            <Border Name="borderFindNoMatches" Margin="5,0" Background="LightSalmon" Visibility="Hidden">
+                <TextBlock Margin="5,0" Text="No matches." VerticalAlignment="Center"/>
+            </Border>
+        </StackPanel>
+
+        <dg:DataGrid Name="ShmVarDataGrid"
+                  BeginningEdit="DataGrid_BeginningEdit"
+                  CellEditEnding="DataGrid_CellEditEnding"
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:ShmVarsEditor}, Path=ListOfShmVariables}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="True"
+                  CanUserDeleteRows="True"
+                  AlternatingRowBackground="WhiteSmoke"
+                  AlternationCount="2"
+                  CanUserResizeRows="False"
+                  CellStyle="{StaticResource dgVCenterStyle}"
+                  RowHeight="22">
+
+            <dg:DataGrid.Columns>
+                <dg:DataGridTemplateColumn x:Name="DataGridNameColumn" Width="100" Header="Name">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Name}" />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                    <dg:DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox VerticalAlignment="Center" VerticalContentAlignment="Center" ContextMenuOpening="UserControl_ContextMenuOpening" 
+                                     Tag="{Binding}" LostKeyboardFocus="tbName_LostKeyboardFocus">
+                                <TextBox.Text>
+                                    <Binding Path="Name" UpdateSourceTrigger="LostFocus">
+                                    </Binding>
+                                </TextBox.Text>
+                                <TextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="ApplicationCommands.Cut"/>
+                                        <MenuItem Command="ApplicationCommands.Copy"/>
+                                        <MenuItem Command="ApplicationCommands.Paste"/>
+                                    </ContextMenu>
+                                </TextBox.ContextMenu>
+                            </TextBox>
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellEditingTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridComboBoxColumn x:Name="DataGridTypeColumn" Width="80" Header="Data Type" SelectedItemBinding="{Binding DataType, UpdateSourceTrigger=LostFocus}">
+                    <dg:DataGridComboBoxColumn.ItemsSource>
+                        <col:ArrayList>
+                            <sys:String>BOOL</sys:String>
+                            <sys:String>BYTE</sys:String>
+                            <sys:String>DINT</sys:String>
+                            <sys:String>DWORD</sys:String>
+                            <sys:String>INT</sys:String>
+                            <sys:String>LREAL</sys:String>
+                            <sys:String>REAL</sys:String>
+                            <sys:String>SINT</sys:String>
+                            <sys:String>TIME</sys:String>
+                            <sys:String>UDINT</sys:String>
+                            <sys:String>UINT</sys:String>
+                            <sys:String>USINT</sys:String>
+                            <sys:String>WORD</sys:String>
+                        </col:ArrayList>
+                    </dg:DataGridComboBoxColumn.ItemsSource>
+                </dg:DataGridComboBoxColumn>
+
+                <dg:DataGridTemplateColumn Header="Fast" SortMemberPath="IsFast">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Path=IsFast}" Click="CheckBoxFast_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn Header="Connected" SortMemberPath="IsConnected" IsReadOnly="True">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=IsConnected, Converter={StaticResource boolToStringConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn Width="200" Header="Comment">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path=Comment}" />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                    <dg:DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <TextBox VerticalAlignment="Center" ContextMenuOpening="UserControl_ContextMenuOpening"
+                                     Text="{Binding Path=Comment, UpdateSourceTrigger=LostFocus}"
+                                     Tag="{Binding}" LostKeyboardFocus="tbComment_LostKeyboardFocus">
+                                <TextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="ApplicationCommands.Cut"/>
+                                        <MenuItem Command="ApplicationCommands.Copy"/>
+                                        <MenuItem Command="ApplicationCommands.Paste"/>
+                                    </ContextMenu>
+                                </TextBox.ContextMenu>
+                            </TextBox>
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellEditingTemplate>
+                </dg:DataGridTemplateColumn>
+            </dg:DataGrid.Columns>
+        </dg:DataGrid>
+    </DockPanel>
+</UserControl>

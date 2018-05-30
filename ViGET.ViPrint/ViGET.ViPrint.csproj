@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AAE5F0CA-B2A8-4739-8AA9-CF14378620A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dothan.Print</RootNamespace>
+    <AssemblyName>ViPrint</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DzPrinter.cs" />
+    <Compile Include="ViDocumentViewer.cs" />
+    <Compile Include="ViPaper.cs" />
+    <Compile Include="Window\PrintPreviewer.xaml.cs">
+      <DependentUpon>PrintPreviewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window\PrintPageSetup.xaml.cs">
+      <DependentUpon>PrintPageSetup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViPrintPage.cs" />
+    <Compile Include="ViPrintParams.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Window\PrintPreviewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window\PrintPageSetup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\btnCancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\btnOK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\landscape.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\portrait.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DothanTech.Helper\DothanTech.Helper.csproj">
+      <Project>{fc962f50-4e8c-4f25-a93b-b9a841224368}</Project>
+      <Name>DothanTech.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DothanTech.ViObjects\DothanTech.ViObjects.csproj">
+      <Project>{15056d6d-f78d-4325-bb8d-3e506efaba95}</Project>
+      <Name>DothanTech.ViObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,19 @@
+<VSTemplate Version="2.0.0" Type="Item">
+  <TemplateData>
+    <Name>XCFC Program A4 Portrait</Name>
+    <Type>CFC_PROGRAM</Type>
+    <Description>CFC Program in 'Continuous Function Chart', A4 Page And Portrait Shown.</Description>
+    <Icon>CFC.ico</Icon>
+    <SortOrder>111</SortOrder>
+    <DefaultName>CFCProgram.XCFC</DefaultName>
+    <Category>
+      <OwnerType>DPS3000B</OwnerType>
+      <OwnerType>FOLDER</OwnerType>
+      <OwnerType>EPU10A</OwnerType>
+      <OwnerType>ESP10B</OwnerType>
+    </Category>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="CFCFile.XCFC" TargetFileName="$safeprojectname$.XCFC" ReplaceParameters="true"></Project>
+  </TemplateContent>
+</VSTemplate>
